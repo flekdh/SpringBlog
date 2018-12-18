@@ -1,0 +1,62 @@
+package com.dao.blog.domain.model.entity;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+@Entity
+@Table(name="POST", uniqueConstraints= {@UniqueConstraint(columnNames= {"post_id"})})
+public class Post {
+	@Id
+	@Column(name="POST_ID")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+	@Column(name="SUBJECT", nullable=false)
+	private String subject;
+	
+	@Column(name="CONTENT", length = 100000000)
+	private String content;
+
+	@Column(name="REG_DATE", nullable=false)
+	private Date regDate;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+	
+	
+}

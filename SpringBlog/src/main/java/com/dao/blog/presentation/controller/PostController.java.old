@@ -1,0 +1,51 @@
+package com.dao.blog.presentation.controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.dao.blog.domain.model.entity.Post;
+import com.dao.blog.infrastructure.dao.PostDAO;
+
+@Controller
+public class PostController {
+
+	@Autowired
+	private PostDAO postDao;
+	
+	@RequestMapping({ "/write" })
+	public String write(Model model) {
+		model.addAttribute("post_title", "A New Post Create");
+		model.addAttribute("post_content", "Create Post of A TigerDao Blog");
+		return "post_edit";
+	}
+	
+	@RequestMapping({ "/save" })
+	public String save(Post post){
+		post.setRegDate(new Date());
+		return "redirect:/post/"+postDao.save(post).getId();
+	}
+	
+	@RequestMapping("/{id}")
+	public String view(Model model, @PathVariable long id) {
+		Post post = postDao.findOneById(id);
+		System.out.println("[PostController] view post : "+post);
+		model.addAttribute("post",post);
+		return "post";
+	}
+	
+	@RequestMapping("/{id}_edit")
+	public String view_edit(Model model, @PathVariable long id) {
+		Post post = postDao.findOneById(id);
+		post.setRegDate(new Date());
+		System.out.println("[PostController] view post : "+post);
+		model.addAttribute("post",post);
+		return "redirect:/post/"+postDao.save(post).getId();
+	}
+}
